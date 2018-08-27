@@ -1,0 +1,57 @@
+body{
+    width: 80%;
+    min-height: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.stroke{
+    text-decoration: line-through;
+}
+
+#new_task{
+    background: #3B5998;
+    display: flex;
+    justify-content: space-around;
+    padding: 30px;
+    font-family: serif;
+    font-size: 16pt;
+    color: white;
+}
+.task_name_input{
+    height: 20px;
+    width: 40%;
+    border-radius: 9px;
+    font-family: sans-serif;
+}
+.buttons{
+    width:40%;
+    display: flex;
+    justify-content: space-around;
+}
+.button{
+    width: 133px;
+    border-radius: 7px;
+    font-family: sans-serif;
+}
+.tasks{
+    background: #dddddd;
+    padding: 7px;
+}
+.task_name{
+    background: #fff;
+    width: 100%;
+    text-align: left;
+    padding: 7px;
+    padding-left: 13px;
+    font-family: sans-serif;
+    font-size: 13pt;
+}
+
+
+@media screen and (max-width: 750px) {
+    .task_name_input{width: 80%;display: table-row;}
+    .buttons{width: 50%;display: flex; justify-content: space-around; margin: 0 auto;padding-top: 10px;}
+    #new_task{width: 100%;display: table;padding-left: 0;padding-right: 0;}
+    
+}

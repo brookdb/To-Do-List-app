@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css" type="text/css" />
+                  
+        
+    </head>
+    <body ng-app="tasks" ng-controller="tasksCtrl">
+        <tr calss="control">
+            
+            <form id="new_task" ng-submit="insertData()" method = "post">
+                <input class="task_name_input" type ="text" ng-model="task_name"  required />
+                <div class="buttons">
+                    <input class="button" type="submit" value ="Add Task"/>
+                    <input class="button" type="button" value ="Clear" ng-click="clear()"/>
+                </div>
+            </form>
+        </tr>
+        <div class="tasks" >
+            </br>
+            <table>
+                <tr ng-repeat="x in taskList">
+                    <td class="task_name"
+                        ng-click="completeTask(x.indx, x.complete)"
+                        ng-class="{'stroke': {{ x.complete }} }">{{ x.task_name }} id: {{x.indx}}</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    var apptasks = angular.module('tasks', []);
+    apptasks.controller('tasksCtrl', function($scope, $http) {
+        //sets up the list from db
+        $http.get("getTasks.php")
+        .then(function (response)
+              {$scope.taskList = response.data.tasks;});
+    
+        //adds new task to db and resets the list
+        $scope.insertData = function(){
+            $scope.complete = 0;
+            $http.post(
+                "addtask.php",
+                {'task_name' :$scope.task_name, 'complete' :$scope.complete}
+            ).then(function(data){
+                $scope.taskList = data.data.tasks;
+                
+            });
+            
+        };
+        
+        //changes the completion status of the task with the specific id from db
+        $scope.completeTask= function(indx, complete){
+            $scope.indx;
+            $scope.complete = complete;
+            $http.post(
+                "completeTask.php",
+                {'index' :indx,'complete' :complete, 'test': "test123"}
+            ).then(function(data){
+                $scope.taskList = data.data.tasks;
+                
+            });
+        };
+        
+        //clears all tasks from lsit
+        $scope.clear= function(){
+            $http.post(
+                "clear.php"
+            ).then(function(data){
+                $scope.taskList = data.data.tasks;
+            });
+        };
+    });
+</script>
